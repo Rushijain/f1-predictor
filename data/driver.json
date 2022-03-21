@@ -1,0 +1,106 @@
+[
+  {
+    "driver": "Guanyu Zahou",
+    "constructor": "Alfa Romeo",
+    "active": 1
+  },
+  {
+    "driver": "Valtteri Bottas",
+    "constructor": "Alfa Romeo",
+    "active": 1
+  },
+  {
+    "driver": "Pierre Gasly",
+    "constructor": "Aplhatauri",
+    "active": 1
+  },
+  {
+    "driver": "Yuki Tsunoda",
+    "constructor": "Aplhatauri",
+    "active": 1
+  },
+  {
+    "driver": "Esteban Ocon",
+    "constructor": "Alpine",
+    "active": 1
+  },
+  {
+    "driver": "Fernando Alonso",
+    "constructor": "Alpine",
+    "active": 1
+  },
+  {
+    "driver": "Lance Stroll",
+    "constructor": "Aston Martin",
+    "active": 1
+  },
+  {
+    "driver": "Sebastian Vettel",
+    "constructor": "Aston Martin",
+    "active": 0
+  },
+  {
+    "driver": "Carlos Sainz Jr",
+    "constructor": "Ferrari",
+    "active": 1
+  },
+  {
+    "driver": "Charles Leclerc",
+    "cosntructor": "Ferrari"
+  },
+  {
+    "driver": "Kevin Magnussen",
+    "constructor": "Haas",
+    "active": 1
+  },
+  {
+    "driver": "Mick Schumacher",
+    "constructor": "Haas",
+    "active": 1
+  },
+  {
+    "driver": "Daniel Ricciardo",
+    "constructor": "McLaren",
+    "active": 1
+  },
+  {
+    "driver": "Lando Norris",
+    "constructor": "McLaren",
+    "active": 1
+  },
+  {
+    "driver": "George Russel",
+    "constructor": "Mercedes",
+    "active": 1
+  },
+  {
+    "driver": "Lewis Hamilton",
+    "constructor": "Mercedes",
+    "active": 1
+  },
+  {
+    "driver": "Max Verstappen",
+    "constructor": "Red Bull",
+    "active": 1
+  },
+  {
+    "driver": "Sergio Perez",
+    "constructor": "Red Bull",
+    "active": 1
+  },
+  {
+    "driver": "Alexander Albon",
+    "constructor": "Williams",
+    "active": 1
+  },
+  {
+    "driver": "Nicholas Latifi",
+    "constructor": "Williams",
+    "active": 1
+  },
+  {
+    "driver": "Nico Hulkenberg",
+    "constructor": "Aston Martin",
+    "active": 1
+  }
+]

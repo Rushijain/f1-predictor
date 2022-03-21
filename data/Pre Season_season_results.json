@@ -1,0 +1,37 @@
+{
+    "name": "Pre Season",
+    "constructors": [
+        {
+            "name": "alpha",
+            "position": 1,
+            "points": 12
+        },
+        {
+            "name": "alpha2",
+            "position": 1,
+            "points": 10
+        }
+    ],
+    "drivers": [
+        {
+            "name": "alkdsjf",
+            "position": 2,
+            "constructor": "ladjf",
+            "points": 10,
+            "pole_positions": 12,
+            "podiums": 1,
+            "race_wins": 6,
+            "dnf": 0
+        },
+        {
+            "name": "Rushikesh",
+            "position": 1,
+            "constructor": "ahsdfjkhasdf",
+            "points": 100,
+            "pole_positions": 12,
+            "podiums": 1,
+            "race_wins": 6,
+            "dnf": 0
+        }
+    ]
+}

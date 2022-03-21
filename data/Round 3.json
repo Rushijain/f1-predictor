@@ -1,0 +1,20 @@
+[
+    {
+        "pole": "Lewis Hamilton",
+        "userId": "Rushikesh",
+        "first": "Lewis Hamilton",
+        "second": "Lewis Hamilton",
+        "third": "Lewis Hamilton",
+        "fastest": "Lewis Hamilton",
+        "constructor": "Mercedes"
+    },
+    {
+        "pole": "Esteban Ocon",
+        "userId": "Neil",
+        "first": "Guanyu Zahou",
+        "second": "Guanyu Zahou",
+        "third": "Guanyu Zahou",
+        "fastest": "Guanyu Zahou",
+        "constructor": "Alfa Romeo"
+    }
+]

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Paddock Club</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/f1.css">
+</head>
+<body>
+  <div class="jumbotron jumbotron-fluid bg-danger">
+    <h1 class="text-center text-white">Welcome to Paddock Club
+      <button class="btn btn-info" onclick="goHome()">Home</button>
+      <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </h1>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-6 mt-5">
+        <div class="card bg-light">
+          <div class="card-header">
+            <h4 class="display-4 text-center">Race Prediction Panel</h4>
+          </div>
+          <form id="seasonPredictionForm">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="sel1">Select First Place Driver:</label>
+                <select class="form-control driverList" id="first" name="first">
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="sel1">Select Second Place Driver:</label>
+                <select class="form-control driverList" id="second" name="second">
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="sel1">Select Constructor:</label>
+                <select class="form-control constructorList" id="constructor" name="constructor">
+                </select>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-lg btn-block btn-danger">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/f1.js"></script>
+
+  <script>
+    $( document ).ready(function() {
+
+      let userId = localStorage.getItem("userId");
+      if(!userId)
+        window.location.href = "/";
+
+      $.get("/driverList")
+        .done(function(msg){
+          fillDriverList(msg)
+         })
+        .fail(function(xhr, status, error) {
+          alert("Error Fetching Data");
+        });
+    });
+
+    function fillDriverList(driverList) {
+      let driverListHTML = ``;
+      let constructorList = ``;
+      let uniqueConstructorList = [];
+
+      driverList.forEach(driver => {
+        driverList += `<option>${driver["driver"]}</option>`;
+
+        if(!uniqueConstructorList.includes(driver["constructor"])) {
+          uniqueConstructorList.push(driver["constructor"])
+          constructorList += `<option>${driver["constructor"]}</option>`;
+        }
+      });
+
+      $(".driverList").append(driverList);
+      $(".constructorList").append(constructorList);
+    }
+
+    $('#seasonPredictionForm').on('submit', (e) => {
+      e.preventDefault();
+
+      let first = $('#first').find(":selected").text();
+      let second = $('#second').find(":selected").text();
+      let constructor = $('#constructor').find(":selected").text();
+
+      if(first == second) {
+        alert("Cannot have same values in Top 2 positions");
+        return;
+      }
+
+      let userId = localStorage.getItem("userId");
+      let season = decodeURIComponent(gup("name"));
+
+      let data = {first, second, constructor, userId, season};
+
+      console.log(data);
+
+      $.post("/season_prediction", data)
+        .done(function(msg){
+          alert("Done");
+        })
+        .fail(function(xhr, status, error) {
+          alert("Error filling in data");
+        });
+    });
+
+    function gup( name ) {
+      let url = location.href;
+      name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+      var regexS = "[\\?&]"+name+"=([^&#]*)";
+      var regex = new RegExp( regexS );
+      var results = regex.exec( url );
+      return results == null ? null : results[1];
+    }
+
+  </script>
+</body>
+</html>

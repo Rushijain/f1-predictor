@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Paddock Club</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/f1.css">
+</head>
+<body>
+  <div class="jumbotron jumbotron-fluid bg-danger">
+    <h1 class="text-center text-white">Welcome to Paddock Club
+      <button class="btn btn-info" onclick="goHome()">Home</button>
+      <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </h1>
+
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8 mt-3">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Your Predictions</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>First</th>
+                  <th>Second</th>
+                  <th>Constructor</th>
+                </tr>
+              </thead>
+              <tbody id="userPredictionBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-8">
+        <div class="card mt-2">
+          <div class="card-header">
+            <h3 class="text-center">Season Driver Results</h3>
+          </div>
+          <div class="card-body">
+
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>Position</th>
+                  <th>Name</th>                  
+                  <th>Constructor</th>
+                  <th>Points</th>
+                  <th>Pole_positions</th>
+                  <th>Podiums</th>
+                  <th>Race Wins</th>
+                  <th>DNF</th>
+                </tr>
+              </thead>
+              <tbody id="seasonDriversResultsBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card mt-2">
+          <div class="card-header">
+            <h3 class="text-center">Season Team Results</h3>
+          </div>
+          <div class="card-body">
+
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>Position</th>
+                  <th>Name</th>                  
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody id="seasonConstructorsResultsBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/f1.js"></script>
+
+  <script>
+    $( document ).ready(function() {
+
+      let seasonName = decodeURIComponent(gup("name"));
+      let userId = localStorage.getItem("userId");
+      if(!userId)
+        window.location.href = "/";
+
+      let data = {
+        season: seasonName,
+        userId
+      }
+
+      $.post("/season_results", data)
+        .done(function(sData){
+          console.log(sData);
+          showSeasonResultConstructorData(sData);
+          showSeasonResultDriverData(sData);
+          userRaceData(sData);
+         })
+        .fail(function(xhr, status, error) {
+          alert("Error Fetching Data");
+        });
+    });
+
+    function userRaceData(sData) {
+      let userData = sData["userPrediction"];
+
+      if(userData && Object.entries(userData).length === 0)
+        return;
+
+      let pHTMl = `
+        <tr>
+          <td>${userData.first || "-"}</td>
+          <td>${userData.second || "-"}</td>
+          <td>${userData.constructor || "-"}</td>
+        </tr>
+      `;
+      $("#userPredictionBody").append(pHTMl);
+
+      pHTML = `
+        <tr>
+          <td>${userData.first_points ?? "-"}</td>
+          <td>${userData.second_points ?? "-"}</td>
+          <td>${userData.constructor_points ?? "-"}</td>
+        </tr>
+      `;
+      $("#userPredictionBody").append(pHTML);
+    }
+
+    function showSeasonResultConstructorData(sData) {
+      //Season Constructor Part start      
+
+      let seasonResults = sData["seasonResults"];
+
+      if(seasonResults && Object.entries(seasonResults).length === 0)
+        return;
+
+      if(seasonResults.constructors) {
+        let sc = seasonResults.constructors;
+
+        sc.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
+
+        $("#seasonConstructorsResultsBody").empty();
+        sc.forEach(s => {
+          let sHTML = `
+            <tr>
+              <td>#${s.position}</td>
+              <td>${s.name}</td>
+              <td>${s.points}</td>
+            </tr>
+          `;
+
+          $("#seasonConstructorsResultsBody").append(sHTML);
+        });
+      }
+      //Season Constructor Part end
+    }
+
+    function showSeasonResultDriverData(sData) {
+      //Season Constructor Part start      
+
+      let seasonResults = sData["seasonResults"];
+
+      if(seasonResults && Object.entries(seasonResults).length === 0)
+        return;
+
+      if(seasonResults.drivers) {
+        let dc = seasonResults.drivers;
+
+        dc.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
+
+        $("#seasonDriversResultsBody").empty();
+        dc.forEach(d => {
+          let dHTML = `
+            <tr>
+              <td>#${d.position}</td>
+              <td>${d.name}</td>
+              <td>${d.constructor}</td>
+              <td>${d.points}</td>
+              <td>${d.pole_positions}</td>
+              <td>${d.podiums}</td>
+              <td>${d.race_wins}</td>
+              <td>${d.dnf}</td>
+            </tr>
+          `;
+
+          $("#seasonDriversResultsBody").append(dHTML);
+        });
+      }
+      //Season Constructor Part end
+    }
+
+    function gup( name ) {
+      let url = location.href;
+      name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+      var regexS = "[\\?&]"+name+"=([^&#]*)";
+      var regex = new RegExp( regexS );
+      var results = regex.exec( url );
+      return results == null ? null : results[1];
+    }
+  </script>
+</body>
+</html>

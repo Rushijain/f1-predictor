@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Paddock Club</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/f1.css">
+</head>
+<body>
+  <div class="jumbotron jumbotron-fluid bg-danger">
+    <h1 class="text-center text-white">Welcome to Paddock Club
+      <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </h1>
+
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-8">
+        <a class="btn btn-lg btn-danger mb-3" href="/leaderboard">Leader Board >></a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Active Races</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Quali Date</th>
+                  <th>Race Date</th>
+                  <th>Country</th>
+                  <th>Circuit</th>
+                  <th>Quali</th>
+                  <th>Race</th>
+                </tr>
+              </thead>
+              <tbody id="activeRaceBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header">
+            <h3 class="text-center">Upcoming Races</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Quali Date</th>
+                  <th>Race Date</th>
+                  <th>Country</th>
+                  <th>Circuit</th>
+                  <th>Quali</th>
+                  <th>Race</th>
+                </tr>
+              </thead>
+              <tbody id="upcomingRaceBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt-3">
+          <div class="card-header">
+            <h3 class="text-center">Completed Races</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Quali Date</th>
+                  <th>Race Date</th>
+                  <th>Country</th>
+                  <th>Circuit</th>
+                  <th>Quali</th>
+                  <th>Race</th>
+                </tr>
+              </thead>
+              <tbody id="finishedRaceBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Seasonal Prediction</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Date</th>
+                  <th>Prediction</th>
+                </tr>
+              </thead>
+              <tbody id="SeasonalPredictionBody">
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt-5">
+          <div class="card-header">
+            <h3 class="text-center">Rules and Regulations</h3>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li>Qualifying Prediction Panel will be locked 30 minutes before qualifying 1 starts for Pole position predictions</li>
+              <li>Race Prediction Panel will be locked 30 minutes before the Race begins for all other predictions</li>
+              <li>IT IS YOUR RESPONSIBILITY TO ENTER PREDICTIONS ON TIME. PLEASE PLAN AHEAD.</li>
+              <li>You must pick AT LEAST ONE DRIVER per race to ensure you don't lose points. </li>
+              <li>You must pick 3 UNIQUE DRIVERS for the race result</li>
+              <li>Fastest Lap, Pole position and Winning Constructor per race are optional predictions. You do not lose points if you don't predict here</li>
+              <li>Streak points are given at the end of the streak, after which the streak resets</li>
+              <li>The PRE-SEASON Predictions have to be completed BY 24th March</li>
+              <li>The MID-SEASON Predictions have to be completed BY 25th August	</li>
+              <li>The PRE-SEASON and MID-SEASON Predictions are OPTIONAL. You do not lose points if you don't predict here</li>
+              <li>You can get points for BOTH PRE-SEASON and MID-SEASON Predictions	</li>
+              <li>If you're new to F1, do read the "INFO SHEET" where you'll find some good resources to get started.
+                Join Whatsapp Group from <a href="https://chat.whatsapp.com/IM5BWyRd9syCdjMLRx0opQ" target="_blank"> here</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/f1.js"></script>
+
+  <script>
+    $( document ).ready(function() {
+
+      $.get("/raceData")
+        .done(function(msg){
+          showRaceData(msg)
+         })
+        .fail(function(xhr, status, error) {
+          alert("Error Fetching Data");
+        });
+
+      let userId = localStorage.getItem("userId");
+      if(!userId)
+        window.location.href = "/";
+
+      $.get("/season")
+        .done(function(sData){
+          showSeasonData(sData)
+         })
+        .fail(function(xhr, status, error) {
+          alert("Error Fetching Data");
+        });
+
+    });
+
+    function showSeasonData(sData) {
+      console.log(sData);
+
+      sData.forEach(s => {
+        let sHTML = `
+          <tr>
+            <td>${s.name}</td>
+            <td>${s.date}</td>   
+        ;`
+
+        if(s.status) {
+          sHTML += `<td><a class="text-danger" href="/season_prediction?name=${s.name}">Open</a></td>`
+        }
+        else {
+          sHTML += `<td><a class="text-danger" href="/season_prediction?name=${s.name}">View</a></td>`
+        }
+
+        sHTML += `</tr>`;
+
+        $("#SeasonalPredictionBody").append(sHTML);
+      });
+    }
+
+    function showRaceData(raceData) {
+      console.log(raceData);
+      $("#upcomingRaceBody").empty();
+      $("#activeRaceBody").empty();
+      $("#finishedRaceBody").empty();
+
+      raceData.forEach(race => {
+        let raceHTML;
+
+        raceHTML = `
+            <tr>
+              <td>${race.name}</td>
+              <td>${race.quali_date}</td>
+              <td>${race.race_date}</td>
+              <td>${race.country}</td>
+              <td>${race.circuit}</td>
+          `;
+
+        if(race.qualiPredictionStatus == 1)
+          raceHTML += `<td><a class="text-danger" href="/quali_prediction?name=${race.name}">Open</a></td>`;
+        else
+          raceHTML += `<td><a class="text-danger" href="/results?name=${race.name}">Results</a></td>`;
+
+        if(race.racePredictionStatus == 1)
+          raceHTML += `<td><a class="text-danger" href="/predict?name=${race.name}">Open</a></td>`;
+        else
+          raceHTML += `<td><a class="text-danger" href="/results?name=${race.name}">Results</a></td>`;
+
+        raceHTML += `</tr>`;
+
+        if(race.status == 1)
+          $("#upcomingRaceBody").append(raceHTML);
+        else if(race.status == 2)
+          $("#activeRaceBody").append(raceHTML);
+        else if(race.status == 3)
+          $("#finishedRaceBody").append(raceHTML);
+      });
+    }
+  </script>
+</body>
+</html>

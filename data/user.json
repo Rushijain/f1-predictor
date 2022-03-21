@@ -1,0 +1,17 @@
+[
+    {
+        "userId": "Neil",
+        "password": "Neil",
+        "phone": 98989898
+    },
+    {
+        "userId": "Rushikesh",
+        "password": "Jain",
+        "phone": 8888210866
+    },
+    {
+        "userId": "Venkat",
+        "password": "Chandar",
+        "phone": 8888210866
+    }
+]

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Paddock Club</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/f1.css">
+</head>
+<body>
+  <div class="jumbotron jumbotron-fluid bg-danger">
+    <h1 class="text-center text-white">Welcome to Paddock Club
+      <button class="btn btn-info" onclick="goHome()">Home</button>
+      <button class="btn btn-secondary" onclick="logout()">Logout</button>
+    </h1>
+
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-2"></div>
+      <div class="col-8 mt-3">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="text-center">Your Predictions</h3>
+          </div>
+          <div class="card-body">
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>Pole</th>
+                  <th>First</th>
+                  <th>Second</th>
+                  <th>Third</th>
+                  <th>Fastest</th>
+                  <th>Constructor</th>
+                </tr>
+              </thead>
+              <tbody id="userPredictionBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <div class="card-header">
+            <h3 class="text-center">Race Results</h3>
+          </div>
+          <div class="card-body">
+            <div class="pole p-3 mb-2 bg-danger text-white"></div>
+            <div class="fastest p-3 mb-2 bg-danger text-white"></div>
+            <div class="constructor p-3 mb-2 bg-danger text-white"></div>
+
+            <table class="table table-dark table-hover">
+              <thead>
+                <tr>
+                  <th>Driver</th>
+                  <th>Constructor</th>
+                  <th>Position</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="raceResultsBody">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/f1.js"></script>
+
+  <script>
+    $( document ).ready(function() {
+
+      let raceName = decodeURIComponent(gup("name"));
+      let userId = localStorage.getItem("userId");
+      if(!userId)
+        window.location.href = "/";
+
+      let data = {
+        name: raceName,
+        userId
+      }
+
+      $.post("/results", data)
+        .done(function(rData){
+          console.log(rData);
+          showRaceResultData(rData);
+          userRaceData(rData);
+         })
+        .fail(function(xhr, status, error) {
+          alert("Error Fetching Data");
+        });
+    });
+
+    function userRaceData(rData) {
+      let userData = rData["userPrediction"];
+
+      if(userData && Object.entries(userData).length === 0)
+        return;
+
+      let pHTMl = `
+        <tr>
+          <td>${userData.pole || "-"}</td>
+          <td>${userData.first || "-"}</td>
+          <td>${userData.second || "-"}</td>
+          <td>${userData.third || "-"}</td>
+          <td>${userData.fastest || "-"}</td>
+          <td>${userData.constructor || "-"}</td>
+        </tr>
+      `;
+      $("#userPredictionBody").append(pHTMl);
+
+      pHTML = `
+        <tr>
+          <td>${userData.pole_points ?? "-"}</td>
+          <td>${userData.first_points ?? "-"}</td>
+          <td>${userData.second_points ?? "-"}</td>
+          <td>${userData.third_points ?? "-"}</td>
+          <td>${userData.fastest_points ?? "-"}</td>
+          <td>${userData.constructor_points ?? "-"}</td>
+        </tr>
+      `;
+      $("#userPredictionBody").append(pHTML);
+    }
+
+    function showRaceResultData(rData) {
+      //Race Part start      
+
+      let raceResults = rData["raceResults"];
+
+      if(raceResults && Object.entries(raceResults).length === 0)
+        return;
+
+      if(raceResults.pole)
+        $(".pole").html("POLE: " + raceResults.pole);
+
+      if(raceResults.constructor)
+        $(".constructor").html("CONSTRUCTOR: " + raceResults.constructor);
+
+      if(raceResults.fastest)
+        $(".fastest").html("FASTEST LAP: " + raceResults.fastest);
+
+      if(raceResults.raceResults) {
+        let rc = raceResults.raceResults;
+
+        rc.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
+
+        $("#raceResultsBody").empty();
+        rc.forEach(r => {
+          let rHTML = `
+            <tr>
+              <td>${r.driver}</td>
+              <td>${r.constructor}</td>
+              <td>${r.position}</td>
+              <td>${r.status}</td>
+            </tr>
+          `;
+
+          $("#raceResultsBody").append(rHTML);
+        });
+      }
+
+      //Race Part end
+    }
+
+    function gup( name ) {
+      let url = location.href;
+      name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+      var regexS = "[\\?&]"+name+"=([^&#]*)";
+      var regex = new RegExp( regexS );
+      var results = regex.exec( url );
+      return results == null ? null : results[1];
+    }
+  </script>
+</body>
+</html>
