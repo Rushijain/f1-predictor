@@ -131,7 +131,7 @@ app.post('/season_prediction', (req, res) => {
 
     fs.writeFileSync(path.resolve(__dirname, "data/" + data.season + ".json"), JSON.stringify(seasonData));
 
-    return res.status(200).send("Done");
+    return res.status(200).send("Predictions have been saved");
   }
   else {
     console.log("File Not found");
@@ -144,7 +144,7 @@ app.post('/season_prediction', (req, res) => {
 
     console.log(seasonData);
     fs.writeFileSync(path.resolve(__dirname, "data/" + data.season + ".json"), JSON.stringify(seasonData));
-    return res.status(200).send("Done");
+    return res.status(200).send("Predictions have been saved");
   }
 });
 
@@ -238,7 +238,7 @@ app.post('/pole_prediction', (req, res) => {
   let race = fs.readFileSync(path.resolve(__dirname, 'data/race.json'));
   race = JSON.parse(race);
 
-  let quali_date = race.find(r => r.name == data.race)["quali_date"];
+  let qualiDate = race.find(r => r.name == data.race)["quali_date"];
 
   let ISToffSet = 330;
   offset= ISToffSet*60*1000;
@@ -272,7 +272,7 @@ app.post('/pole_prediction', (req, res) => {
 
     fs.writeFileSync(path.resolve(__dirname, "data/" + data.race + ".json"), JSON.stringify(raceData));
 
-    return res.status(200).send("Done");
+    return res.status(200).send("Prediction have been saved");
   }
   else {
     console.log("File Not found");
@@ -283,7 +283,7 @@ app.post('/pole_prediction', (req, res) => {
 
     console.log(raceData);
     fs.writeFileSync(path.resolve(__dirname, "data/" + data.race + ".json"), JSON.stringify(raceData));
-    return res.status(200).send("Done");
+    return res.status(200).send("Predictions have been saved");
   }
 
 })
@@ -348,7 +348,7 @@ app.post('/prediction', (req, res) => {
 
     fs.writeFileSync(path.resolve(__dirname, "data/" + data.race + ".json"), JSON.stringify(raceData));
 
-    return res.status(200).send("Done");
+    return res.status(200).send("Predictions have been saved");
   }
   else {
     console.log("File Not found");
@@ -363,7 +363,7 @@ app.post('/prediction', (req, res) => {
 
     console.log(raceData);
     fs.writeFileSync(path.resolve(__dirname, "data/" + data.race + ".json"), JSON.stringify(raceData));
-    return res.status(200).send("Done");
+    return res.status(200).send("Predictions have been saved");
   }
 });
 
