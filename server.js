@@ -1,4 +1,5 @@
 const http = require('http');
+require('dotenv').config()
 const express = require('express');
 const fs = require('fs');
 var bodyParser = require('body-parser')
@@ -522,6 +523,5 @@ app.post('/update_users', (req, res) => {
 });
 
 const server = http.createServer(app);
-const port = 3000;
-server.listen(port);
-console.debug('Server listening on port ' + port);
+server.listen(process.env.PORT);
+console.debug('Server listening on port ' + process.env.PORT);
