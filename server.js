@@ -452,11 +452,27 @@ app.post('/get_all_races', (req, res) => {
   return res.status(200).send(data);
 });
 
+app.post('/update_races', (req, res) => {
+
+  let data = req.body;
+
+  fs.writeFileSync(path.resolve(__dirname, "data/race.json"), JSON.stringify(data));
+  return res.status(200).send("successful");;
+});
+
 app.post('/get_all_seasons', (req, res) => {
 
   let data = fs.readFileSync(path.resolve(__dirname, "data/seasons.json"));
 
   return res.status(200).send(data);
+});
+
+app.post('/update_seasons', (req, res) => {
+
+  let data = req.body;
+
+  fs.writeFileSync(path.resolve(__dirname, "data/seasons.json"), JSON.stringify(data));
+  return res.status(200).send("successful");
 });
 
 app.post("/update_season_results", (req, res) => {

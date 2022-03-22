@@ -1,10 +1,1 @@
-[
-  {
-      "name": "Pre Season",
-      "date": "March 23, 2022 20:00:00"
-  },
-  {
-      "name": "Post Season",
-      "date": "March 26, 2022 22:30:00"
-  }
-]
+[{"name":"Pre Season","date":"March 23, 2022 20:00:00"},{"name":"Mid Season","date":"March 26, 2022 22:30:00"}]
