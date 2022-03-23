@@ -522,6 +522,19 @@ app.post('/update_users', (req, res) => {
   return res.status(200).send("successful");
 });
 
+app.post('/get_drivers', (req, res) => {
+
+  let data = fs.readFileSync(path.resolve(__dirname, "data/driver.json"));
+  return res.status(200).send(data);
+});
+
+app.post('/update_drivers', (req, res) => {
+  let data = req.body;
+
+  fs.writeFileSync(path.resolve(__dirname, "data/driver.json"), JSON.stringify(data));
+  return res.status(200).send("Successful");
+});
+
 const server = http.createServer(app);
 server.listen(process.env.PORT);
 console.debug('Server listening on port ' + process.env.PORT);
