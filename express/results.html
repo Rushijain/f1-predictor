@@ -54,9 +54,9 @@
             <table class="table table-dark table-hover">
               <thead>
                 <tr>
-                  <th>Driver</th>
-                  <th>Constructor</th>
                   <th>Position</th>
+                  <th>Driver</th>
+                  <th>Constructor</th>                  
                   <th>Points</th>
                 </tr>
               </thead>
@@ -156,9 +156,9 @@
         rc.forEach(r => {
           let rHTML = `
             <tr>
+              <td>#${r.position}</td>
               <td>${r.driver}</td>
-              <td>${r.constructor}</td>
-              <td>${r.position}</td>
+              <td>${r.constructor}</td>              
               <td>${r.points}</td>
             </tr>
           `;
