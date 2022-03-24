@@ -41,6 +41,10 @@ app.get('/season_prediction', (req, res) => {
   res.sendFile(path.join(__dirname+'/express/season_prediction.html'));
 });
 
+app.get('/my_predictions', (req, res) => {
+  res.sendFile(path.join(__dirname+'/express/my_predictions.html'));
+});
+
 app.get('/season_results', (req, res) => {
   res.sendFile(path.join(__dirname+'/express/season_results.html'));
 });
@@ -106,6 +110,18 @@ app.post('/season_prediction', (req, res) => {
   let season = fs.readFileSync(path.resolve(__dirname, 'data/seasons.json'));
   season = JSON.parse(season);
 
+  let seasonDate = season.find(r => r.name == data.season)["date"];
+
+  let ISToffSet = 330;
+  offset= ISToffSet*60*1000;
+  let date = new Date(new Date().getTime()+offset)
+
+  seasonDate = new Date(new Date(seasonDate).getTime()+offset);
+  let diff = (seasonDate - date)/3600000
+  if(diff < 0) {
+    return res.status(400).send("Time for submitting your prediction has exceeded");
+  }
+
   if (fs.existsSync(path.resolve(__dirname, "data/" + data.season + ".json"))) {
     console.log("File Exists");
     let seasonData = fs.readFileSync(path.resolve(__dirname, "data/" + data.season + ".json"));
@@ -116,7 +132,7 @@ app.post('/season_prediction', (req, res) => {
       if(user.userId == data.userId) {
         seasonData[i]["first"] = data.first;
         seasonData[i]["second"] = data.second;
-        seasonData[i]["constructor"] = data.constructor;
+        seasonData[i]["team"] = data.team;
         userAvailable = true;
       }
     });
@@ -125,7 +141,7 @@ app.post('/season_prediction', (req, res) => {
       seasonData.push({
         first: data.first,
         second: data.second,
-        constructor: data.constructor,
+        team: data.team,
         userId : data.userId
       });
     }
@@ -139,7 +155,7 @@ app.post('/season_prediction', (req, res) => {
     let seasonData = [{
       first: data.first,
       second: data.second,
-      constructor: data.constructor,
+      team: data.team,
       userId : data.userId
     }];
 
@@ -331,7 +347,7 @@ app.post('/prediction', (req, res) => {
         raceData[i]["second"] = data.second;
         raceData[i]["third"] = data.third;
         raceData[i]["fastest"] = data.fastest;
-        raceData[i]["constructor"] = data.constructor;
+        raceData[i]["team"] = data.team;
         userAvailable = true;
       }
     });
@@ -342,7 +358,7 @@ app.post('/prediction', (req, res) => {
         second: data.second,
         third: data.third,
         fastest: data.fastest,
-        constructor: data.constructor,
+        team: data.team,
         userId : data.userId
       });
     }
@@ -358,7 +374,7 @@ app.post('/prediction', (req, res) => {
       second: data.second,
       third: data.third,
       fastest: data.fastest,
-      constructor: data.constructor,
+      team: data.team,
       userId: data.userId
     }];
 
@@ -368,8 +384,41 @@ app.post('/prediction', (req, res) => {
   }
 });
 
-app.post('/race_prediction', (req, res) => {
-  let name = req.body.name;
+app.post('/user_predictions', (req, res) => {
+  let userId = req.body.userId;
+  let predictions = [];
+
+  if(!userId)
+    return res.status(400).send("User Id not found");
+
+  let races = fs.readFileSync(path.resolve(__dirname, "data/race.json"));
+  races = JSON.parse(races);
+
+  races.forEach((r, i) => {
+    let currentPrediction = {};
+
+    if (fs.existsSync(path.resolve(__dirname, "data/" + r.name + ".json"))) {
+
+      console.log("File Exists");
+
+      let race_predictions = fs.readFileSync(path.resolve(__dirname, "data/" + r.name + ".json"));
+      race_predictions = JSON.parse(race_predictions);
+      let user_prediction = race_predictions.find(c => c.userId == userId);
+
+      if(user_prediction)
+        currentPrediction = user_prediction;      
+    }
+
+    currentPrediction["race"] = r.name;
+    currentPrediction["country"] = r.country;
+    currentPrediction["circuit"] = r.circuit;
+    predictions.push(currentPrediction);
+
+    if(races.length - 1 == i) {
+      console.log("Reached last race  " + races.length + "  " + i);
+      return res.status(200).send(predictions);
+    }      
+  });  
 });
 
 app.post("/results", (req, res) => {

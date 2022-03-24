@@ -35,8 +35,8 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="sel1">Select Constructor:</label>
-                <select class="form-control constructorList" id="constructor" name="constructor">
+                <label for="sel1">Select Team:</label>
+                <select class="form-control teamList" id="team" name="team">
                 </select>
               </div>
             </div>
@@ -72,20 +72,20 @@
 
     function fillDriverList(driverList) {
       let driverListHTML = ``;
-      let constructorList = ``;
-      let uniqueConstructorList = [];
+      let teamList = ``;
+      let uniqueTeamList = [];
 
       driverList.forEach(driver => {
         driverList += `<option>${driver["driver"]}</option>`;
 
-        if(!uniqueConstructorList.includes(driver["constructor"])) {
-          uniqueConstructorList.push(driver["constructor"])
-          constructorList += `<option>${driver["constructor"]}</option>`;
+        if(!uniqueTeamList.includes(driver["team"])) {
+          uniqueTeamList.push(driver["team"])
+          teamList += `<option>${driver["team"]}</option>`;
         }
       });
 
       $(".driverList").append(driverList);
-      $(".constructorList").append(constructorList);
+      $(".teamList").append(teamList);
     }
 
     $('#seasonPredictionForm').on('submit', (e) => {
@@ -93,7 +93,7 @@
 
       let first = $('#first').find(":selected").text();
       let second = $('#second').find(":selected").text();
-      let constructor = $('#constructor').find(":selected").text();
+      let team = $('#team').find(":selected").text();
 
       if(first == second) {
         alert("Cannot have same values in Top 2 positions");
@@ -103,7 +103,7 @@
       let userId = localStorage.getItem("userId");
       let season = decodeURIComponent(gup("name"));
 
-      let data = {first, second, constructor, userId, season};
+      let data = {first, second, team, userId, season};
 
       console.log(data);
 

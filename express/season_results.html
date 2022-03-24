@@ -29,7 +29,7 @@
                 <tr>
                   <th>First</th>
                   <th>Second</th>
-                  <th>Constructor</th>
+                  <th>Team</th>
                 </tr>
               </thead>
               <tbody id="userPredictionBody">
@@ -54,7 +54,7 @@
                 <tr>
                   <th>Position</th>
                   <th>Name</th>                  
-                  <th>Constructor</th>
+                  <th>Team</th>
                   <th>Points</th>
                   <th>Pole_positions</th>
                   <th>Podiums</th>
@@ -85,7 +85,7 @@
                   <th>Points</th>
                 </tr>
               </thead>
-              <tbody id="seasonConstructorsResultsBody">
+              <tbody id="seasonTeamsResultsBody">
 
               </tbody>
             </table>
@@ -116,7 +116,7 @@
       $.post("/season_results", data)
         .done(function(sData){
           console.log(sData);
-          showSeasonResultConstructorData(sData);
+          showSeasonResultTeamData(sData);
           showSeasonResultDriverData(sData);
           userRaceData(sData);
          })
@@ -135,7 +135,7 @@
         <tr>
           <td>${userData.first || "-"}</td>
           <td>${userData.second || "-"}</td>
-          <td>${userData.constructor || "-"}</td>
+          <td>${userData.team || "-"}</td>
         </tr>
       `;
       $("#userPredictionBody").append(pHTMl);
@@ -144,26 +144,26 @@
         <tr>
           <td>${userData.first_points ?? "-"}</td>
           <td>${userData.second_points ?? "-"}</td>
-          <td>${userData.constructor_points ?? "-"}</td>
+          <td>${userData.team_points ?? "-"}</td>
         </tr>
       `;
       $("#userPredictionBody").append(pHTML);
     }
 
-    function showSeasonResultConstructorData(sData) {
-      //Season Constructor Part start      
+    function showSeasonResultTeamData(sData) {
+      //Season Team Part start      
 
       let seasonResults = sData["seasonResults"];
 
       if(seasonResults && Object.entries(seasonResults).length === 0)
         return;
 
-      if(seasonResults.constructors) {
-        let sc = seasonResults.constructors;
+      if(seasonResults.teams) {
+        let sc = seasonResults.teams;
 
         sc.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
 
-        $("#seasonConstructorsResultsBody").empty();
+        $("#seasonTeamsResultsBody").empty();
         sc.forEach(s => {
           let sHTML = `
             <tr>
@@ -173,14 +173,14 @@
             </tr>
           `;
 
-          $("#seasonConstructorsResultsBody").append(sHTML);
+          $("#seasonTeamsResultsBody").append(sHTML);
         });
       }
-      //Season Constructor Part end
+      //Season Team Part end
     }
 
     function showSeasonResultDriverData(sData) {
-      //Season Constructor Part start      
+      //Season Team Part start      
 
       let seasonResults = sData["seasonResults"];
 
@@ -198,7 +198,7 @@
             <tr>
               <td>#${d.position}</td>
               <td>${d.name}</td>
-              <td>${d.constructor}</td>
+              <td>${d.team}</td>
               <td>${d.points}</td>
               <td>${d.pole_positions}</td>
               <td>${d.podiums}</td>
@@ -210,7 +210,7 @@
           $("#seasonDriversResultsBody").append(dHTML);
         });
       }
-      //Season Constructor Part end
+      //Season Team Part end
     }
 
     function gup( name ) {

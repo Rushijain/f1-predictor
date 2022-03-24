@@ -45,8 +45,8 @@
                 </select>
               </div>
               <div class="form-group">
-                <label for="sel1">Select Constructor:</label>
-                <select class="form-control constructorList" id="constructor" name="constructor">
+                <label for="sel1">Select Team:</label>
+                <select class="form-control teamList" id="team" name="team">
                 </select>
               </div>                          
             </div>
@@ -82,20 +82,20 @@
 
     function fillDriverList(driverList) {
       let driverListHTML = ``;
-      let constructorList = ``;
-      let uniqueConstructorList = [];
+      let teamList = ``;
+      let uniqueTeamList = [];
 
       driverList.forEach(driver => {
         driverList += `<option>${driver["driver"]}</option>`;
 
-        if(!uniqueConstructorList.includes(driver["constructor"])) {
-          uniqueConstructorList.push(driver["constructor"])
-          constructorList += `<option>${driver["constructor"]}</option>`;
+        if(!uniqueTeamList.includes(driver["team"])) {
+          uniqueTeamList.push(driver["team"])
+          teamList += `<option>${driver["team"]}</option>`;
         }        
       });
 
       $(".driverList").append(driverList);
-      $(".constructorList").append(constructorList);
+      $(".teamList").append(teamList);
     }
 
     $('#racePredictionForm').on('submit', (e) => {
@@ -105,7 +105,7 @@
       let second = $('#second').find(":selected").text();
       let third = $('#third').find(":selected").text();
       let fastest = $('#fastest').find(":selected").text();
-      let constructor = $('#constructor').find(":selected").text();
+      let team = $('#team').find(":selected").text();
 
       if(first == second || first == third || second == third) {
         alert("Cannot have same values in Top 3 positions");
@@ -115,7 +115,7 @@
       let userId = localStorage.getItem("userId");
       let race = decodeURIComponent(gup("name"));
 
-      let data = {first, second, third, fastest, constructor, userId, race};
+      let data = {first, second, third, fastest, team, userId, race};
 
       console.log(data);
 

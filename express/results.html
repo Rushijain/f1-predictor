@@ -32,7 +32,7 @@
                   <th>Second</th>
                   <th>Third</th>
                   <th>Fastest</th>
-                  <th>Constructor</th>
+                  <th>Team</th>
                 </tr>
               </thead>
               <tbody id="userPredictionBody">
@@ -49,14 +49,14 @@
           <div class="card-body">
             <div class="pole p-3 mb-2 bg-danger text-white"></div>
             <div class="fastest p-3 mb-2 bg-danger text-white"></div>
-            <div class="constructor p-3 mb-2 bg-danger text-white"></div>
+            <div class="team p-3 mb-2 bg-danger text-white"></div>
 
             <table class="table table-dark table-hover">
               <thead>
                 <tr>
                   <th>Position</th>
                   <th>Driver</th>
-                  <th>Constructor</th>                  
+                  <th>Team</th>                  
                   <th>Points</th>
                 </tr>
               </thead>
@@ -112,7 +112,7 @@
           <td>${userData.second || "-"}</td>
           <td>${userData.third || "-"}</td>
           <td>${userData.fastest || "-"}</td>
-          <td>${userData.constructor || "-"}</td>
+          <td>${userData.team || "-"}</td>
         </tr>
       `;
       $("#userPredictionBody").append(pHTMl);
@@ -124,7 +124,7 @@
           <td>${userData.second_points ?? "-"}</td>
           <td>${userData.third_points ?? "-"}</td>
           <td>${userData.fastest_points ?? "-"}</td>
-          <td>${userData.constructor_points ?? "-"}</td>
+          <td>${userData.team_points ?? "-"}</td>
         </tr>
       `;
       $("#userPredictionBody").append(pHTML);
@@ -141,8 +141,8 @@
       if(raceResults.pole)
         $(".pole").html("POLE: " + raceResults.pole);
 
-      if(raceResults.constructor)
-        $(".constructor").html("CONSTRUCTOR: " + raceResults.constructor);
+      if(raceResults.team)
+        $(".team").html("CONSTRUCTOR: " + raceResults.team);
 
       if(raceResults.fastest)
         $(".fastest").html("FASTEST LAP: " + raceResults.fastest);
@@ -158,7 +158,7 @@
             <tr>
               <td>#${r.position}</td>
               <td>${r.driver}</td>
-              <td>${r.constructor}</td>              
+              <td>${r.team}</td>              
               <td>${r.points}</td>
             </tr>
           `;

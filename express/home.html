@@ -18,6 +18,7 @@
     <div class="row">
       <div class="col-8">
         <a class="btn btn-lg btn-danger mb-3" href="/leaderboard">Leader Board >></a>
+        <a class="btn btn-lg btn-danger mb-3" href="/my_predictions">My Predictions >></a>
       </div>
     </div>
 
@@ -127,7 +128,7 @@
               <li>IT IS YOUR RESPONSIBILITY TO ENTER PREDICTIONS ON TIME. PLEASE PLAN AHEAD.</li>
               <li>You must pick AT LEAST ONE DRIVER per race to ensure you don't lose points. </li>
               <li>You must pick 3 UNIQUE DRIVERS for the race result</li>
-              <li>Fastest Lap, Pole position and Winning Constructor per race are optional predictions. You do not lose points if you don't predict here</li>
+              <li>Fastest Lap, Pole position and Winning Team per race are optional predictions. You do not lose points if you don't predict here</li>
               <li>Streak points are given at the end of the streak, after which the streak resets</li>
               <li>The PRE-SEASON Predictions have to be completed BY 24th March</li>
               <li>The MID-SEASON Predictions have to be completed BY 25th August	</li>
@@ -186,7 +187,7 @@
           sHTML += `<td><a class="text-danger" href="/season_prediction?name=${s.name}">Open</a></td>`
         }
         else {
-          sHTML += `<td><a class="text-danger" href="/season_prediction?name=${s.name}">View</a></td>`
+          sHTML += `<td><a class="text-danger" href="/season_results?name=${s.name}">View</a></td>`
         }
 
         sHTML += `</tr>`;
