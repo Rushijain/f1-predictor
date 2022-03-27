@@ -49,6 +49,10 @@ app.get('/season_results', (req, res) => {
   res.sendFile(path.join(__dirname+'/express/season_results.html'));
 });
 
+app.get('/rules', (req, res) => {
+  res.sendFile(path.join(__dirname+'/express/rules.html'));
+});
+
 app.post('/login', (req, res) => {
 
   console.log('Data:', req.body);
@@ -116,7 +120,7 @@ app.post('/season_prediction', (req, res) => {
   offset= ISToffSet*60*1000;
   let date = new Date(new Date().getTime()+offset)
 
-  seasonDate = new Date(new Date(seasonDate).getTime()+offset);
+  seasonDate = new Date(seasonDate);
   let diff = (seasonDate - date)/3600000
   if(diff < 0) {
     return res.status(400).send("Time for submitting your prediction has exceeded");
@@ -202,7 +206,7 @@ app.get('/raceData', (req, res) => {
   console.log(new Date(raceData[0].race_date));
 
   raceData.forEach((race, i) => {
-    let raceDate = new Date(new Date(race.race_date).getTime()+offset);
+    let raceDate = new Date(race.race_date);
     let raceDiff = (raceDate - date)/3600000;
 
     if(raceDiff < 0.5) {
@@ -212,7 +216,7 @@ app.get('/raceData', (req, res) => {
       raceData[i]["racePredictionStatus"] = 1;
     }
 
-    let qualiDate = new Date(new Date(race.quali_date).getTime()+offset);
+    let qualiDate = new Date(race.quali_date);
     qualiDiff = (qualiDate - date)/3600000;
 
     if(qualiDiff < 0.5) {
@@ -261,7 +265,7 @@ app.post('/pole_prediction', (req, res) => {
   offset= ISToffSet*60*1000;
   let date = new Date(new Date().getTime()+offset)
 
-  qualiDate = new Date(new Date(qualiDate).getTime()+offset);
+  qualiDate = new Date(qualiDate);
   let diff = (qualiDate - date)/3600000
   if(diff < 0.5) {
     return res.status(400).send("Time for submitting your prediction has exceeded");
@@ -327,7 +331,7 @@ app.post('/prediction', (req, res) => {
 
   console.log(date);
 
-  race_date = new Date(new Date(race_date).getTime()+offset);
+  race_date = new Date(race_date);
 
   console.log(race_date);
   let diff = (race_date - date)/3600000
