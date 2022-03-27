@@ -439,7 +439,7 @@ app.post("/results", (req, res) => {
     data["raceResults"] = JSON.parse(raceResults);
   }
 
-  if (fs.existsSync(path.resolve(__dirname, "data/" + raceName + "_race_results.json"))) {
+  if (fs.existsSync(path.resolve(__dirname, "data/" + raceName + ".json"))) {
     let userRacePredictions = fs.readFileSync(path.resolve(__dirname, "data/" + raceName + ".json"));
     userRacePredictions = JSON.parse(userRacePredictions);
 
