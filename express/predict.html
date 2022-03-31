@@ -34,9 +34,12 @@
   </nav>
 
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-3"></div>
-      <div class="col-6 mt-5">
+    <div class="row mt-5">
+      <div class="col-6">
+        <img src="" id="circuitImage" class="img-fluid" alt="Responsive image">
+        <h2 class="h1 text-uppercase text-light text-center mt-5" id="raceName"></h2>
+      </div>
+      <div class="col-6">
         <div class="card bg-light">
           <div class="card-header">
             <h4 class="display-4 text-center">Race Prediction Panel</h4>
@@ -137,6 +140,12 @@
         if(up.team)
           $('#team').val(up.team);
       }
+
+      if(data.raceData)
+        if(data.raceData.layout)
+          $("#circuitImage").attr("src", "" + data.raceData.layout + "");
+        if(data.raceData.circuit)
+          $("#raceName").html(data.raceData.circuit);
     }
 
     $('#racePredictionForm').on('submit', (e) => {
