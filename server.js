@@ -246,6 +246,40 @@ app.get('/driverList', (req, res) => {
   return res.status(200).send(driverList);
 });
 
+app.post('/raceInputPrediction', (req, res) => {
+  let data = {
+    driverList: [],
+    userPrediction: {},
+    raceData: {}
+  };
+
+  let raceName = req.body.race;
+  let userId = req.body.userId;
+
+  let driverList = fs.readFileSync(path.resolve(__dirname, 'data/driver.json'));
+  driverList = JSON.parse(driverList);
+  driverList = driverList.filter(c => c.active == 1);
+  data.driverList = driverList;
+
+  if(fs.existsSync(path.resolve(__dirname, "data/" + raceName + ".json"))) {
+    let race_predictions = fs.readFileSync(path.resolve(__dirname, "data/" + raceName + ".json"));
+    race_predictions = JSON.parse(race_predictions);
+    let user_prediction = race_predictions.find(c => c.userId == userId);
+    if(user_prediction)
+      data.userPrediction = user_prediction;
+  }
+  
+  let allRaces = fs.readFileSync(path.resolve(__dirname, "data/race.json"));
+  allRaces = JSON.parse(allRaces);
+  let raceData = allRaces.find(c => c.name == raceName);
+  if(raceData)
+    data.raceData = raceData;
+  else
+    return res.status(400).send("Race Data Not Found");
+
+  return res.status(200).send(data);
+});
+
 app.post('/pole_prediction', (req, res) => {
   let data = req.body;
   console.log(data);
@@ -410,7 +444,7 @@ app.post('/user_predictions', (req, res) => {
       let user_prediction = race_predictions.find(c => c.userId == userId);
 
       if(user_prediction)
-        currentPrediction = user_prediction;      
+        currentPrediction = user_prediction;
     }
 
     currentPrediction["race"] = r.name;
@@ -421,8 +455,8 @@ app.post('/user_predictions', (req, res) => {
     if(races.length - 1 == i) {
       console.log("Reached last race  " + races.length + "  " + i);
       return res.status(200).send(predictions);
-    }      
-  });  
+    }
+  });
 });
 
 app.post("/results", (req, res) => {
@@ -534,7 +568,7 @@ app.post("/update_season_results", (req, res) => {
   let name = data.name;
 
   if(!name)
-    return res.status(200).send("Unsuccessful");  
+    return res.status(200).send("Unsuccessful");
 
   fs.writeFileSync(path.resolve(__dirname, "data/"+ name +"_season_results.json"), JSON.stringify(data));
 

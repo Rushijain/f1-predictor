@@ -9,11 +9,30 @@
 </head>
 <body>
   <div class="jumbotron jumbotron-fluid bg-danger">
-    <h1 class="text-center text-white">THE PADDOCK CLUB
-      <button class="btn btn-info" onclick="goHome()">Home</button>
-      <button class="btn btn-secondary" onclick="logout()">Logout</button>
-    </h1>
+    <h1 class="text-center text-white">THE PADDOCK CLUB</h1>
   </div>
+
+  <nav class="navbar navbar-expand-sm bg-danger navbar-dark text-center">
+    <!-- Links -->
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/home">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rules">Rules</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/my_predictions">My Predictions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/leaderboard">leaderboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="" onclick="logout()">Logout</a>
+      </li>
+    </ul>  
+  </nav>
+
   <div class="container-fluid">
     <div class="row">
       <div class="col-3"></div>

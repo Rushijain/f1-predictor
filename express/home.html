@@ -9,18 +9,31 @@
 </head>
 <body>
   <div class="jumbotron jumbotron-fluid bg-danger">
-    <h1 class="text-center text-white">THE PADDOCK CLUB
-      <button class="btn btn-secondary" onclick="logout()">Logout</button>
-    </h1>
-
+    <h1 class="text-center text-white">THE PADDOCK CLUB</h1>
   </div>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-8">
-        <a class="btn btn-lg btn-danger mb-3" href="/leaderboard">Leader Board >></a>
-        <a class="btn btn-lg btn-danger mb-3" href="/my_predictions">My Predictions >></a>
-      </div>
-    </div>
+
+  <nav class="navbar navbar-expand-sm bg-danger navbar-dark text-center">
+    <!-- Links -->
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item">
+        <a class="nav-link active" href="/home">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rules">Rules</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/my_predictions">My Predictions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/leaderboard">leaderboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="" onclick="logout()">Logout</a>
+      </li>
+    </ul>  
+  </nav>
+
+  <div class="container-fluid mt-3">
 
     <div class="row">
       <div class="col-8">
@@ -42,7 +55,6 @@
                 </tr>
               </thead>
               <tbody id="activeRaceBody">
-
               </tbody>
             </table>
           </div>
@@ -114,29 +126,6 @@
               <tbody id="SeasonalPredictionBody">
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <div class="card mt-5">
-          <div class="card-header">
-            <h3 class="text-center">Rules and Regulations</h3>
-          </div>
-          <div class="card-body">
-            <ul>
-              <li>Qualifying Prediction Panel will be locked 30 minutes before qualifying 1 starts for Pole position predictions</li>
-              <li>Race Prediction Panel will be locked 30 minutes before the Race begins for all other predictions</li>
-              <li>IT IS YOUR RESPONSIBILITY TO ENTER PREDICTIONS ON TIME. PLEASE PLAN AHEAD.</li>
-              <li>You must pick AT LEAST ONE DRIVER per race to ensure you don't lose points. </li>
-              <li>You must pick 3 UNIQUE DRIVERS for the race result</li>
-              <li>Fastest Lap, Pole position and Winning Team per race are optional predictions. You do not lose points if you don't predict here</li>
-              <li>Streak points are given at the end of the streak, after which the streak resets</li>
-              <li>The PRE-SEASON Predictions have to be completed BY 24th March</li>
-              <li>The MID-SEASON Predictions have to be completed BY 25th August	</li>
-              <li>The PRE-SEASON and MID-SEASON Predictions are OPTIONAL. You do not lose points if you don't predict here</li>
-              <li>You can get points for BOTH PRE-SEASON and MID-SEASON Predictions	</li>
-              <li>If you're new to F1, do read the "INFO SHEET" where you'll find some good resources to get started.
-                Join Whatsapp Group from <a href="https://chat.whatsapp.com/IM5BWyRd9syCdjMLRx0opQ" target="_blank"> here</a></li>
-            </ul>
           </div>
         </div>
       </div>
