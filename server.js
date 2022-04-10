@@ -246,6 +246,74 @@ app.get('/driverList', (req, res) => {
   return res.status(200).send(driverList);
 });
 
+app.post('/seasonInputPrediction',(req, res) => {
+  let data = {
+    driverList: [],
+    userPrediction: {},
+    seasonData: {}
+  };
+
+  let seasonName = req.body.season;
+  let userId = req.body.userId;
+
+  let driverList = fs.readFileSync(path.resolve(__dirname, 'data/driver.json'));
+  driverList = JSON.parse(driverList);
+  driverList = driverList.filter(c => c.active == 1);
+  data.driverList = driverList;
+
+  if(fs.existsSync(path.resolve(__dirname, "data/" + seasonName + ".json"))) {
+    let season_predictions = fs.readFileSync(path.resolve(__dirname, "data/" + seasonName + ".json"));
+    season_predictions = JSON.parse(season_predictions);
+    let user_prediction = season_predictions.find(c => c.userId == userId);
+    if(user_prediction)
+      data.userPrediction = user_prediction;
+  }
+
+  let allSeasons = fs.readFileSync(path.resolve(__dirname, "data/seasons.json"));
+  allSeasons = JSON.parse(allSeasons);
+  let seasonData = allSeasons.find(c => c.name == seasonName);
+  if(seasonData)
+    data.seasonData = seasonData;
+  else
+    return res.status(400).send("Season Data Not Found");
+
+  return res.status(200).send(data);
+});
+
+app.post('/qualiInputPrediction', (req, res) => {
+  let data = {
+    driverList: [],
+    userPrediction: {},
+    raceData: {}
+  };
+
+  let raceName = req.body.race;
+  let userId = req.body.userId;
+
+  let driverList = fs.readFileSync(path.resolve(__dirname, 'data/driver.json'));
+  driverList = JSON.parse(driverList);
+  driverList = driverList.filter(c => c.active == 1);
+  data.driverList = driverList;
+
+  if(fs.existsSync(path.resolve(__dirname, "data/" + raceName + ".json"))) {
+    let race_predictions = fs.readFileSync(path.resolve(__dirname, "data/" + raceName + ".json"));
+    race_predictions = JSON.parse(race_predictions);
+    let user_prediction = race_predictions.find(c => c.userId == userId);
+    if(user_prediction)
+      data.userPrediction = user_prediction;
+  }
+  
+  let allRaces = fs.readFileSync(path.resolve(__dirname, "data/race.json"));
+  allRaces = JSON.parse(allRaces);
+  let raceData = allRaces.find(c => c.name == raceName);
+  if(raceData)
+    data.raceData = raceData;
+  else
+    return res.status(400).send("Quali Data Not Found");
+
+  return res.status(200).send(data);
+});
+
 app.post('/raceInputPrediction', (req, res) => {
   let data = {
     driverList: [],

@@ -12,34 +12,39 @@
     <h1 class="text-center text-white">THE PADDOCK CLUB</h1>
   </div>
 
-  <nav class="navbar navbar-expand-sm bg-danger navbar-dark text-center">
-    <!-- Links -->
-    <ul class="navbar-nav mx-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="/home">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/rules">Rules</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/my_predictions">My Predictions</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/leaderboard">leaderboard</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="" onclick="logout()">Logout</a>
-      </li>
-    </ul>  
+  <nav class="navbar navbar-expand-md bg-danger navbar-dark">
+    <a class="navbar-brand text-center" href="#">Prediction</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/rules">Rules</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/my_predictions">My Predictions</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/leaderboard">Leaderboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="" onclick="logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
   </nav>
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-3"></div>
-      <div class="col-6 mt-5">
+      <div class="col-0 col-sm-0 col-md-2 col-lg-2"></div>
+      <div class="col-12 col-sm-12 col-md-8 col-lg-8 mt-5">
         <div class="card bg-light">
           <div class="card-header">
-            <h4 class="display-4 text-center">Season Prediction Panel</h4>
+            <h4 class="display-4 text-center" id="formTitle"></h4>
           </div>
           <form id="seasonPredictionForm">
             <div class="card-body">
@@ -80,22 +85,24 @@
       if(!userId)
         window.location.href = "/";
 
-      $.get("/driverList")
-        .done(function(msg){
-          fillDriverList(msg)
+      let season = decodeURIComponent(gup("name"));
+      
+      $.post("/seasonInputPrediction", {userId, season})
+        .done(function(data){
+          fillDriverList(data)
          })
         .fail(function(xhr, status, error) {
           alert("Error Fetching Data");
         });
     });
 
-    function fillDriverList(driverList) {
+    function fillDriverList(data) {
       let driverListHTML = ``;
       let teamList = ``;
       let uniqueTeamList = [];
 
-      driverList.forEach(driver => {
-        driverList += `<option>${driver["driver"]}</option>`;
+      data.driverList.forEach(driver => {
+        driverListHTML += `<option>${driver["driver"]}</option>`;
 
         if(!uniqueTeamList.includes(driver["team"])) {
           uniqueTeamList.push(driver["team"])
@@ -103,8 +110,22 @@
         }
       });
 
-      $(".driverList").append(driverList);
+      $(".driverList").append(driverListHTML);
       $(".teamList").append(teamList);
+
+      if(data.userPrediction) {
+        let up = data.userPrediction;
+        if(up.first)
+          $('#first').val(up.first);
+
+        if(up.second)
+          $('#second').val(up.second)
+
+        if(up.team)
+          $('#team').val(up.team);
+      }
+
+      $("#formTitle").html(data.seasonData.name + " Prediction Panel");
     }
 
     $('#seasonPredictionForm').on('submit', (e) => {

@@ -6,3 +6,30 @@ body {
   margin: 0px !important;
   padding-bottom: 10px !important;
 }
+
+@media only screen and (max-width: 426px) {
+  .navbar-brand {
+    display: block !important;
+  }
+
+  .nav-item .active {
+    display: none;
+  }
+
+  .navbar-nav {
+    margin-left: 0px;
+    margin-right: 10px;
+  }
+}
+
+@media only screen and (min-width: 426px) {
+  .navbar-nav {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+
+.navbar-brand {
+  display: none;
+}

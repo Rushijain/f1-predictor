@@ -1,8 +1,6 @@
 $('#loginForm').on('submit', (e) => {
   e.preventDefault();
 
-  console.log("reached here");
-
   let userId = $('#userId').val().trim();
   let password = $('#userPwd').val().trim();
 
