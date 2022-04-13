@@ -107,17 +107,17 @@
               <td>${user.race}</td>
               <td>${user.country}</td>
               <td>${user.pole || "-"}</td>
-              <td>${user.pole_points ?? "-"}</td>
+              <td class="${ user.pole_points > 0 ? 'text-success' : (user.pole_points < 0 ? 'text-danger' : 'text-white')}">${user.pole_points ?? "-"}</td>
               <td>${user.first || "-"}</td>
-              <td>${user.first_points ?? "-"}</td>
+              <td class="${ user.first_points > 0 ? 'text-success' : (user.first_points < 0 ? 'text-danger' : 'text-white')}">${user.first_points ?? "-"}</td>
               <td>${user.second || "-"}</td>
-              <td>${user.second_points ?? "-"}</td>
+              <td class="${ user.second_points > 0 ? 'text-success' : (user.second_points < 0 ? 'text-danger' : 'text-white')}">${user.second_points ?? "-"}</td>
               <td>${user.third || "-"}</td>
-              <td>${user.third_points || "-"}</td>
+              <td class="${ user.third_points > 0 ? 'text-success' : (user.third_points < 0 ? 'text-danger' : 'text-white')}">${user.third_points ?? "-"}</td>
               <td>${user["team"] || "-"}</td>
-              <td>${user.team_points || "-"}</td>
+              <td class="${ user.team_points > 0 ? 'text-success' : (user.team_points < 0 ? 'text-danger' : 'text-white')}">${user.team_points ?? "-"}</td>
               <td>${user.fastest || "-"}</td>
-              <td>${user.fastest_points || "-"}</td>
+              <td class="${ user.fastest_points > 0 ? 'text-success' : (user.fastest_points < 0 ? 'text-danger' : 'text-white')}">${user.fastest_points ?? "-"}</td>
             </tr>
           `;
 
