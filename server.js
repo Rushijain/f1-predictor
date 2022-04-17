@@ -226,7 +226,7 @@ app.get('/raceData', (req, res) => {
       raceData[i]["qualiPredictionStatus"] = 1;
     }
 
-    if(qualiDiff < 24 && raceDiff > -4)
+    if(qualiDiff < 24 && raceDiff > -24)
       raceData[i]["status"] = 2;
     else if(raceDiff < -4)
       raceData[i]["status"] = 3;
@@ -302,7 +302,7 @@ app.post('/qualiInputPrediction', (req, res) => {
     if(user_prediction)
       data.userPrediction = user_prediction;
   }
-  
+
   let allRaces = fs.readFileSync(path.resolve(__dirname, "data/race.json"));
   allRaces = JSON.parse(allRaces);
   let raceData = allRaces.find(c => c.name == raceName);
@@ -336,7 +336,7 @@ app.post('/raceInputPrediction', (req, res) => {
     if(user_prediction)
       data.userPrediction = user_prediction;
   }
-  
+
   let allRaces = fs.readFileSync(path.resolve(__dirname, "data/race.json"));
   allRaces = JSON.parse(allRaces);
   let raceData = allRaces.find(c => c.name == raceName);
