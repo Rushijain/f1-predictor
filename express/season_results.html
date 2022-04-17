@@ -83,6 +83,7 @@
                     <th>Points</th>
                     <th>Pole_positions</th>
                     <th>Podiums</th>
+                    <th>Fastest Laps</th>
                     <th>Race Wins</th>
                     <th>DNF</th>
                   </tr>
@@ -188,15 +189,15 @@
       if(seasonResults.teams) {
         let sc = seasonResults.teams;
 
-        sc.sort((a, b) => parseFloat(a.position) - parseFloat(b.position));
+        sc.sort((a, b) => parseFloat(b.points) - parseFloat(a.points));
 
         $("#seasonTeamsResultsBody").empty();
-        sc.forEach(s => {
+        sc.forEach((s, i) => {
           let sHTML = `
             <tr>
-              <td>#${s.position}</td>
-              <td>${s.name}</td>
-              <td>${s.points}</td>
+              <td>#${++i}</td>
+              <td>${s.name ?? '-'}</td>
+              <td>${s.points ?? '-'}</td>
             </tr>
           `;
 
@@ -223,14 +224,15 @@
         dc.forEach(d => {
           let dHTML = `
             <tr>
-              <td>#${d.position}</td>
-              <td>${d.name}</td>
-              <td>${d.team}</td>
-              <td>${d.points}</td>
-              <td>${d.pole_positions}</td>
-              <td>${d.podiums}</td>
-              <td>${d.race_wins}</td>
-              <td>${d.dnf}</td>
+              <td>#${d.position ?? '-'}</td>
+              <td>${d.name ?? '-'}</td>
+              <td>${d.team ?? '-'}</td>
+              <td>${d.points ?? '-'}</td>
+              <td>${d.pole_positions ?? '-'}</td>
+              <td>${d.podiums ?? '-'}</td>
+              <td>${d.fastest_laps ?? '-'}</td>
+              <td>${d.race_wins ?? '-'}</td>
+              <td>${d.dnf ?? '-'}</td>
             </tr>
           `;
 
