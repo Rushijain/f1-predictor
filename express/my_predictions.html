@@ -64,6 +64,8 @@
                     <th>Points</th>
                     <th>Fastest</th>
                     <th>Points</th>
+                    <th>Bonus Points</th>
+                    <th>Streak Points</th>
                   </tr>
                 </thead>
                 <tbody id="predictionBody">
@@ -118,6 +120,8 @@
               <td class="${ user.team_points > 0 ? 'text-success' : (user.team_points < 0 ? 'text-danger' : 'text-white')}">${user.team_points ?? "-"}</td>
               <td>${user.fastest || "-"}</td>
               <td class="${ user.fastest_points > 0 ? 'text-success' : (user.fastest_points < 0 ? 'text-danger' : 'text-white')}">${user.fastest_points ?? "-"}</td>
+              <td class="${ user.bonus_points > 0 ? 'text-success' : (user.bonus_points < 0 ? 'text-danger' : 'text-white')}">${user.bonus_points ?? "-"}</td>
+              <td class="${ user.streak_points > 0 ? 'text-success' : (user.streak_points < 0 ? 'text-danger' : 'text-white')}">${user.streak_points ?? "-"}</td>
             </tr>
           `;
 
